@@ -22,6 +22,7 @@ const config = {
   PORT: process.env.PORT || Number(argv.PORT) || 8080,
   MODE: process.env.MODE || argv.MODE || "FORK",
   numCPUs: os.cpus().length,
+  GRAPHIQL: NODE_ENV !== "production",
   PERS: process.env.PERS?.toLowerCase() || "mem",
   fileSystemDb: {
     path: path.join(__dirname, "..", "DB"),

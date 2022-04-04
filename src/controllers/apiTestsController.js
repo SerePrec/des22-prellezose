@@ -5,8 +5,12 @@ class ApiTestsController {
     this.testsService = new TestsService();
   }
 
-  getProductosTest = (req, res) => {
-    res.json(this.testsService.generateNMockProduct(5));
+  getProductosTest = () => {
+    try {
+      return this.testsService.generateNMockProduct(5);
+    } catch (error) {
+      throw new Error(`Error al obtener productos mock: ${error}`);
+    }
   };
 }
 

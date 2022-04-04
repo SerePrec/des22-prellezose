@@ -13,6 +13,14 @@ function getRandomNumbers(min, max, qty) {
   return randoms;
 }
 
+function arrayFormat(dic) {
+  const randoms = [];
+  for (const [number, occurrency] of Object.entries(dic)) {
+    randoms.push({ number, occurrency });
+  }
+  return randoms;
+}
+
 logger.info(
   `Child Process 'calcRandomNumbers' iniciado con pid:${process.pid}`
 );
@@ -22,7 +30,7 @@ process.on("message", msg => {
   if (action === "start") {
     const { min, max, qty } = payload;
     const result = getRandomNumbers(min, max, qty);
-    process.send(result);
+    process.send(arrayFormat(result));
     process.exit();
   }
 });

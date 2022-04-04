@@ -10,9 +10,8 @@ import Error404Controller from "./controllers/error404Controller.js";
 import config from "./config.js";
 import authRouter from "./routes/authRouter.js";
 import webServerRouter from "./routes/webServerRouter.js";
-import apiTestsRouter from "./routes/apiTestsRouter.js";
 import apiProductosRouter from "./routes/apiProductosRouter.js";
-import apiRandomsRouter from "./routes/apiRandomsRouter.js";
+import apiRouter from "./routes/apiRouter.js";
 import { logger } from "./logger/index.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -55,11 +54,9 @@ app.use(passport.session());
 // routers
 app.use(authRouter.start());
 app.use(webServerRouter.start());
-app.use("/api", apiTestsRouter.start());
-app.use("/api/randoms", apiRandomsRouter.start());
-config.NODE_ENV === "test"
-  ? app.use("/api/productos", apiProductosRouter.start())
-  : app.use("/api/productos", isAuthApi, apiProductosRouter.start()); // Para los tests se quita la autenticación de esta ruta
+// app.use("/api/productos", isAuthApi, apiProductosRouter.start());
+app.use("/api", apiRouter.start());
+//app.use("/api", isAuthApi, apiProductosRouter.start());
 
 // error 404 API
 app.use("/api", error404Controller.getError404Api);

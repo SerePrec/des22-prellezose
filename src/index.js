@@ -38,7 +38,10 @@ async function startServer() {
     });
 }
 
-cluster.isPrimary && logger.info(`>>>> Entorno: [${config.NODE_ENV}] <<<<`);
+cluster.isPrimary &&
+  logger.info(
+    `>>>> Entorno: [${config.NODE_ENV}] <<<< >>>> GRAPHIQL: [${config.GRAPHIQL}] <<<<`
+  );
 
 MODE !== "CLUSTER" &&
   process.on("exit", code => {

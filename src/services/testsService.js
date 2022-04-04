@@ -7,7 +7,8 @@ class TestsService {
       id,
       title: faker.commerce.product(),
       price: faker.commerce.price(),
-      thumbnail: faker.image.imageUrl(100, 100, "any", true)
+      thumbnail: faker.image.imageUrl(100, 100, "any", true),
+      timestamp: faker.date.past()
     };
     return product;
   }

@@ -1,5 +1,23 @@
+const query = `
+  query {
+    productsMock{
+      id
+      title
+      price
+      thumbnail
+    }
+  }
+`;
+
 async function fetchProducts() {
-  return fetch("/api/productos-test").then(res => res.json());
+  return fetch("/api", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    },
+    body: JSON.stringify({ query })
+  }).then(res => res.json());
 }
 
 function renderProducts(list) {
@@ -41,7 +59,7 @@ function renderProducts(list) {
 }
 
 fetchProducts()
-  .then(products => renderProducts(products))
+  .then(({ data }) => renderProducts(data.productsMock))
   .then(htmlCode => {
     document.getElementById("contenido").innerHTML = htmlCode;
   })
