@@ -6,81 +6,70 @@ class ApiProductosController {
     this.productsService = new ProductsService();
   }
 
-  getAllProducts = async (req, res) => {
+  getAllProducts = async () => {
     try {
       const lista = await this.productsService.getAllProducts();
-      res.json(lista);
+      return lista;
     } catch (error) {
       logger.error(error);
-      res.status(500).json({
-        error: "No se pudo recuperar la infomación"
-      });
+      throw new Error(`No se pudo recuperar la infomación: ${error}`);
     }
   };
 
-  createProduct = async (req, res) => {
+  createProduct = async ({ data }) => {
     try {
-      const data = req.body;
       const newProduct = await this.productsService.createProduct(data);
       logger.info("Producto creado con éxito");
-      res.status(201).json({ result: "ok", newProduct });
+      return newProduct;
     } catch (error) {
       logger.error(error);
-      res.status(500).json({
-        error: "No se pudo agregar el producto"
-      });
+      throw new Error(`No se pudo agregar el producto: ${error}`);
     }
   };
 
-  getProduct = async (req, res) => {
+  getProduct = async ({ id }) => {
     try {
-      const producto = await this.productsService.getProduct(req.params.id);
-      producto !== null
-        ? res.json(producto)
-        : res.status(404).json({ error: "Producto no encontrado" });
+      const producto = await this.productsService.getProduct(id);
+      if (producto !== null) {
+        return producto;
+      } else {
+        throw new Error("Producto no encontrado");
+      }
     } catch (error) {
       logger.error(error);
-      res.status(500).json({
-        error: "No se pudo recuperar la infomación"
-      });
+      throw new Error(`No se pudo recuperar la infomación: ${error}`);
     }
   };
 
-  updateProduct = async (req, res) => {
+  updateProduct = async ({ id, data }) => {
     try {
-      const data = req.body;
-      const { id } = req.params;
       const updateProduct = await this.productsService.updateProduct(id, data);
       if (updateProduct !== null) {
         logger.info("Producto actualizado con éxito");
-        res.json({ result: "ok", updateProduct });
+        return updateProduct;
       } else {
         logger.warn("Producto no encontrado");
-        res.status(404).json({ error: "Producto no encontrado" });
+        throw new Error("Producto no encontrado");
       }
     } catch (error) {
       logger.error(error);
-      res.status(500).json({
-        error: "No se pudo actualizar el producto"
-      });
+      throw new Error(`No se pudo actualizar el producto: ${error}`);
     }
   };
 
-  deleteProduct = async (req, res) => {
+  deleteProduct = async ({ id }) => {
     try {
-      const deletedId = await this.productsService.deleteProduct(req.params.id);
+      const deletedId = await this.productsService.deleteProduct(id);
       if (deletedId !== null) {
         logger.info("Producto borrado con éxito");
-        res.json({ result: "ok", deletedId });
+        return deletedId;
       } else {
         logger.warn("Producto no encontrado");
-        res.status(404).json({ error: "Producto no encontrado" });
+        throw new Error("Producto no encontrado");
       }
     } catch (error) {
       logger.error(error);
-      res.status(500).json({
-        error: "No se pudo eliminar el producto"
-      });
+      throw new Error(`No se pudo eliminar el producto: ${error}`);
     }
   };
 }

@@ -1,4 +1,5 @@
 import TestsService from "../services/testsService.js";
+import { logger } from "../logger/index.js";
 
 class ApiTestsController {
   constructor() {
@@ -9,7 +10,8 @@ class ApiTestsController {
     try {
       return this.testsService.generateNMockProduct(5);
     } catch (error) {
-      throw new Error(`Error al obtener productos mock: ${error}`);
+      logger.error(error);
+      throw new Error(`Error al obtener productos mock`);
     }
   };
 }

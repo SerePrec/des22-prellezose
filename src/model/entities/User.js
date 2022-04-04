@@ -82,7 +82,10 @@ export class UserWithId extends User {
   }
 
   set timestamp(timestamp) {
-    const { error, value } = Joi.date().iso().required().validate(timestamp);
+    const { error, value } = Joi.string()
+      .isoDate()
+      .required()
+      .validate(timestamp);
     if (error) {
       throw new Error(`timestamp: ${error.message}`);
     }

@@ -3,7 +3,7 @@ import { Message } from "../model/entities/Message.js";
 import { User } from "../model/entities/User.js";
 
 class ValidateDataService {
-  // Valida que sea un id numérico
+  // Valida que sea un id alfanumérico
   validateId = id => {
     if (!((typeof id == "string" || typeof id == "number") && /^\w+$/.test(id)))
       return { error: "El parámetro no es válido" };
