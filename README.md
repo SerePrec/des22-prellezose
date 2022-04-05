@@ -68,14 +68,101 @@ Estas vistas se encuentran en las rutas:
 
 ### API
 
-TODO: API GRAPHQL
+Se montó la **API GraphQL** sobre la ruta `/api`.
+En su router encontramos la definición del schema de graphql, como se muestra a continuación:
 
-graphi
+```js
+// GraphQL schema
+const schema = buildSchema(`
+  type Query {
+    products: [Product!]!
+    product(id:ID!): Product!
+    productsMock: [Product!]!
+    randoms(cant: Int): [RandomPair!]!
+  }
+  type Mutation {
+    createProduct(data: ProductCreateInput!): Product!
+    updateProduct(id:ID!, data: ProductUpdateInput!): Product!
+    deleteProduct(id: ID!): ID!
+  }
+  type Product {
+    id: ID!
+    title: String!
+    price: Float!
+    thumbnail: String!
+    timestamp: String!
+  }
+  type RandomPair {
+    number: String!
+    occurrency: Int!
+  }
+  input ProductCreateInput {
+    title: String!
+    price: Float!
+    thumbnail: String!
+  }
+  input ProductUpdateInput {
+    title: String
+    price: Float
+    thumbnail: String
+  }
+`);
+```
 
-mostrar esquema en formato objeto
+Cuando nos encontramos en el ambiente de **desarrollo**, en esta misma ruta se ofrece el IDE de **GraphiQL**, el cuál es muy útil para explorar la API y obtener documentación de la misma.
 
 ### Detalles y comentarios
 
-TODO:
+Se migró toda la API REST a una **API GraphQL**. Por lo que los endpoints de productos, productos-mock y números randoms, fueron fusionados en la ruta `/api` cuyo esquema se mostró más arriba.
 
-se cmabio api prod, mock, random....
+Los cambios principales se centraron en el router y controladores.  
+Los routers individuales fueron reemplazados por un único router que reúne toda la funcionalidad.  
+Los controladores fueron modificados para tomar por parámetro los datos como GraphQL los provee y devolver las respuestas adecuadas también para que GraphQL las procese y exponga. Es decir, no están más presentes en ellos los objetos **req y res**.
+
+A fin de no introducir cambios en como se pensó la API originalmente (según se fue pidiendo en algún desafío), mantuve la autenticación requerida sobre la misma para poder operar. Por lo que antes de llegar al middleware de `graphqlHTTP`, permanece el middleware `isAuth` que comprueba que nos encontremos autenticados. De no ser así se devuelve un mensaje de error indicando esto.
+
+Por el lado del front, el home continúa como fue pedido en desafíos anteriores, en donde la carga de productos y mensajes se hace utilizando **websockets**, por lo que no fueron necesarios cambios para continuar operando.  
+Los cambios fueron se realizaron sobre la vista **/productos-mock**, en donde se hacía una llamada a la api respectiva para generar el listado. En este caso las peticiones **fetch** fueron re adecuadas incluyendo el query respectivo para GraphQL.
+
+Hice algunas pruebas sobre la api GraphQL que muestro a continuación. Utilicé GraphiQL y postman a tal fin.
+
+Query products
+
+<div align="center">
+  <img src="docs/query-products.png" alt="Resultados del test"/>
+</div>
+<br/>
+
+Query product por id 6238c664082cb0424fa197a4
+
+<div align="center">
+  <img src="docs/query-product.png" alt="Resultados del test"/>
+</div>
+<br/>
+
+Query randoms con cantidad = 5
+
+<div align="center">
+  <img src="docs/query-randoms.png" alt="Resultados del test"/>
+</div>
+<br/>
+
+Mutation createProduct
+
+<div align="center">
+  <img src="docs/mutation-create.png" alt="Resultados del test"/>
+</div>
+<br/>
+
+Mutation updateProduct
+
+<div align="center">
+  <img src="docs/mutation-update.png" alt="Resultados del test"/>
+</div>
+<br/>
+
+Mutation deleteProduct
+
+<div align="center">
+  <img src="docs/mutation-delete.png" alt="Resultados del test"/>
+</div>

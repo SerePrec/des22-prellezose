@@ -53,8 +53,7 @@ app.use(passport.session());
 // routers
 app.use(authRouter.start());
 app.use(webServerRouter.start());
-app.use("/api", apiRouter.start());
-//app.use("/api", isAuthApi, apiProductosRouter.start());
+app.use("/api", isAuthApi, apiRouter.start());
 
 // error 404 API
 app.use("/api", error404Controller.getError404Api);

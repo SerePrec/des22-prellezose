@@ -14,7 +14,11 @@ class WebServerRouter {
 
     router.get("/info", this.webServerController.showAppInfo);
 
-    router.get("/productos-mock", this.webServerController.getProductosMock);
+    router.get(
+      "/productos-mock",
+      isAuthWeb,
+      this.webServerController.getProductosMock
+    );
 
     return router;
   }
