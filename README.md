@@ -129,40 +129,40 @@ Hice algunas pruebas sobre la api GraphQL que muestro a continuación. Utilicé 
 Query products
 
 <div align="center">
-  <img src="docs/query-products.png" alt="Resultados del test"/>
+  <img src="docs/query-products.png" alt="Resultados del query"/>
 </div>
 <br/>
 
 Query product por id 6238c664082cb0424fa197a4
 
 <div align="center">
-  <img src="docs/query-product.png" alt="Resultados del test"/>
+  <img src="docs/query-product.png" alt="Resultados del query"/>
 </div>
 <br/>
 
 Query randoms con cantidad = 5
 
 <div align="center">
-  <img src="docs/query-randoms.png" alt="Resultados del test"/>
+  <img src="docs/query-randoms.png" alt="Resultados del query"/>
 </div>
 <br/>
 
 Mutation createProduct
 
 <div align="center">
-  <img src="docs/mutation-create.png" alt="Resultados del test"/>
+  <img src="docs/mutation-create.png" alt="Resultados del query"/>
 </div>
 <br/>
 
 Mutation updateProduct
 
 <div align="center">
-  <img src="docs/mutation-update.png" alt="Resultados del test"/>
+  <img src="docs/mutation-update.png" alt="Resultados del query"/>
 </div>
 <br/>
 
 Mutation deleteProduct
 
 <div align="center">
-  <img src="docs/mutation-delete.png" alt="Resultados del test"/>
+  <img src="docs/mutation-delete.png" alt="Resultados del query"/>
 </div>
